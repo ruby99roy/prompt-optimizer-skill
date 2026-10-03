@@ -1,0 +1,7 @@
+interface:
+  display_name: "提示词优化"
+  short_description: "把模糊需求改成可直接交给 Agent 的简洁提示词"
+  default_prompt: "使用 $prompt-optimizer 优化以下提示词：……"
+
+policy:
+  allow_implicit_invocation: false
