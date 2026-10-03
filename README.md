@@ -34,7 +34,7 @@ $prompt-optimizer
 优化方向：先做最简单的 MVP，让 Codex 可以直接开始开发。
 ```
 
-通常会直接收到一段带有 `【可直接发送给 Codex 的提示词】` 标题的内容。复制标题下的整段内容，粘贴到主工作对话即可。
+通常会直接收到一段带有 `【可直接发送给 Agent 的提示词】` 标题的内容。复制标题下的整段内容，粘贴到主工作对话即可。
 
 如果它真的无法判断关键内容，才会一次性问你 1 至 3 个问题；你回答后，它就给最终版，不会反复追问。
 
@@ -43,7 +43,7 @@ $prompt-optimizer
 每次给出最终版后，Skill 会问一句：
 
 ```text
-要不要我顺便用这次案例讲解优化思路？
+需要讲解吗？回复“要”即可。
 ```
 
 回复 `要教学` 或 `教我`，它会用当前案例简短说明：
@@ -83,29 +83,22 @@ $prompt-optimizer
 
 ## 安装到你的 Agent
 
-核心文件是 `SKILL.md`。Codex 的额外显示配置在 `agents/openai.yaml` 中，其他 Agent 会忽略它，不影响核心规则。
+仓库现在提供两份明确的安装包：根目录是 Codex 版；`packages/workbuddy/prompt-optimizer/` 是 WorkBuddy 版。它们都保持“只手动调用”。
 
-| Agent | 推荐安装方式 | 安装后怎么用 |
+| 平台 | 当前支持 | 推荐安装方式 |
 | --- | --- | --- |
-| Codex | 把仓库克隆到 `~/.codex/skills/prompt-optimizer` | 新开对话后输入 `$prompt-optimizer` |
-| Claude Code | 把仓库克隆到 `~/.claude/skills/prompt-optimizer` | 重开 Claude Code 后按其 Skills 菜单或命令调用 |
-| WorkBuddy | 在“技能”页面选择“添加技能 / 上传技能”，上传本仓库下载的 ZIP 包 | 在已安装技能中启用后，在对话中调用 |
-| CodeBuddy Code | 如果你说的 “work Buddy” 是 CodeBuddy Code，克隆到 `~/.codebuddy/skills/prompt-optimizer` | 重开或刷新后调用该 Skill |
-| 豆包工作 | 打开“技能·连接器·伙伴”，点击 `+` 后选择“上传技能”；若你的版本没有上传入口，选“与豆包对话新建技能”并使用下方提示词 | 在技能列表中启用后调用 |
+| Codex | 已适配 | 克隆仓库根目录到 `~/.codex/skills/prompt-optimizer`，新开对话后输入 `$prompt-optimizer` |
+| WorkBuddy | 已适配 | 将 `packages/workbuddy/prompt-optimizer/` 单独压缩为 ZIP，在“添加技能 → 上传技能”导入。包内已设置为不自动调用。 |
+| Claude Code | 未验证 | 可参考其官方 Skills 文档自行导入；本仓库暂不承诺“仅手动调用”的行为。 |
+| CodeBuddy Code / 豆包工作 | 未验证 | 暂未提供适配包，请勿把 Codex 版当成已验证安装包。 |
 
-### Codex / Claude Code / CodeBuddy Code 的命令
+### Codex 的命令
 
 本项目的 GitHub 地址：`https://github.com/ruby99roy/prompt-optimizer-skill`
 
 ```bash
 # Codex
 git clone https://github.com/ruby99roy/prompt-optimizer-skill.git ~/.codex/skills/prompt-optimizer
-
-# Claude Code
-git clone https://github.com/ruby99roy/prompt-optimizer-skill.git ~/.claude/skills/prompt-optimizer
-
-# CodeBuddy Code
-git clone https://github.com/ruby99roy/prompt-optimizer-skill.git ~/.codebuddy/skills/prompt-optimizer
 ```
 
 Windows 下，Codex 的目标目录通常是：
@@ -114,25 +107,34 @@ Windows 下，Codex 的目标目录通常是：
 C:\Users\<你的用户名>\.codex\skills\prompt-optimizer
 ```
 
+### WorkBuddy 的打包方式
+
+先下载或克隆本仓库，再在 Windows PowerShell 中运行：
+
+```powershell
+cd prompt-optimizer-skill\packages\workbuddy
+Compress-Archive -Path .\prompt-optimizer -DestinationPath prompt-optimizer-workbuddy.zip
+```
+
+然后在 WorkBuddy 的“添加技能 → 上传技能”中选择这个 ZIP。不要上传整个仓库 ZIP；其中包含 Codex 专用配置。
+
 ### 直接复制给 Agent 的安装提示词
 
-不想自己找目录时，把下面整段发给你正在使用的 Agent；把方括号里的内容替换掉：
+不想自己找目录时，把下面整段发给 Codex；它只会安装经过本仓库适配的 Codex 版：
 
 ```text
 请把 GitHub 仓库 https://github.com/ruby99roy/prompt-optimizer-skill 里的 prompt-optimizer 安装为我的个人全局 Skill。
 
-目标平台：[Codex / Claude Code / WorkBuddy / CodeBuddy Code / 豆包工作]
-
 要求：
 1. 先读取仓库中的 README.md 和 SKILL.md，确认内容只是提示词优化规则；
-2. 使用该平台官方推荐的个人级 Skill 安装方式；
+2. 使用 Codex 官方推荐的个人级 Skill 安装方式；
 3. 保留“只手动调用”的行为，不要改成自动触发；
 4. 不安装额外软件、不申请 API Key，也不要改动其他已有 Skill；
 5. 完成后告诉我：实际安装位置、如何调用、是否需要重启或刷新；
 6. 如果该平台不支持直接导入这个 Skill，要明确说明原因，并告诉我最短的可行替代方式，不要假装已经安装成功。
 ```
 
-不同版本的 WorkBuddy 和豆包工作，上传入口或 Skill 包格式可能不同；以你实际看到的页面为准。
+WorkBuddy 上传入口或包格式会随版本变化；以其实际页面和官方文档为准。其他平台需要各自的适配包，不能假设同一个 `SKILL.md` 通用。
 
 ## 使用边界
 
@@ -146,7 +148,10 @@ C:\Users\<你的用户名>\.codex\skills\prompt-optimizer
 
 ```text
 prompt-optimizer/
-├── SKILL.md              # Skill 行为规则
-├── README.md             # 小白使用说明
-└── agents/openai.yaml    # Codex 的显示名与调用策略
+├── SKILL.md                                # Codex Skill 行为规则
+├── agents/openai.yaml                      # Codex 的显示名与调用策略
+├── packages/workbuddy/prompt-optimizer/    # WorkBuddy 专用上传包
+│   └── SKILL.md
+├── README.md                               # 小白使用说明
+└── LICENSE                                 # MIT 许可证
 ```
