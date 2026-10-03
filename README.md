@@ -136,6 +136,10 @@ Compress-Archive -Path .\prompt-optimizer -DestinationPath prompt-optimizer-work
 
 WorkBuddy 上传入口或包格式会随版本变化；以其实际页面和官方文档为准。其他平台需要各自的适配包，不能假设同一个 `SKILL.md` 通用。
 
+## 开源许可
+
+本项目采用 [MIT 许可证](LICENSE)，可以自由使用、修改和分发，但请保留许可证声明。
+
 ## 使用边界
 
 - 仅手动调用，不会自动影响普通对话。
