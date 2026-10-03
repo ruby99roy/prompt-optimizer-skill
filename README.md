@@ -46,7 +46,7 @@ $prompt-optimizer
 需要讲解吗？回复“要”即可。
 ```
 
-回复 `要教学` 或 `教我`，它会用当前案例简短说明：
+回复 `要`、`要教学` 或 `教我`，它才会用当前案例简短说明：
 
 ```text
 原始提示词
@@ -60,6 +60,8 @@ $prompt-optimizer
 
 不想学就不用回复；它不会自动进入教学，也不会给普通任务增加步骤。
 
+例如你刚优化的是“做一个周易角色扮演小程序”，教学只会解释这一次：目标是做 MVP、已知背景是周易角色、还缺哪些约束，以及为什么要补上完成标准。它不会另起一套泛泛的提示词课程。
+
 ## 对结果不满意怎么办
 
 直接在同一个临时对话里说：
@@ -68,7 +70,7 @@ $prompt-optimizer
 再优化：上一版太泛了。我只想要微信小程序的 MVP，不要登录和支付。
 ```
 
-反馈足够明确时，Skill 会直接给第二版；不够明确时，才会再问最多 3 个针对性问题。你不需要重新粘贴原始需求。
+反馈足够明确时，Skill 会直接给第二版；不够明确时，才会再问最多 3 个针对性问题。只要还在同一个临时对话，你不需要重新粘贴原始需求；如果新开了对话，它会请你补回原始提示词或上一版。
 
 ## 为什么建议用临时对话
 
@@ -83,12 +85,12 @@ $prompt-optimizer
 
 ## 安装到你的 Agent
 
-仓库现在提供两份明确的安装包：根目录是 Codex 版；`packages/workbuddy/prompt-optimizer/` 是 WorkBuddy 版。它们都保持“只手动调用”。
+仓库提供两个明确的分支：`main` 是 Codex 版；`workbuddy` 是 WorkBuddy 版。两份都保持“只手动调用”，因此 Codex 安装包中不会混入另一个平台的 `SKILL.md`。
 
 | 平台 | 当前支持 | 推荐安装方式 |
 | --- | --- | --- |
 | Codex | 已适配 | 克隆仓库根目录到 `~/.codex/skills/prompt-optimizer`，新开对话后输入 `$prompt-optimizer` |
-| WorkBuddy | 已适配 | 将 `packages/workbuddy/prompt-optimizer/` 单独压缩为 ZIP，在“添加技能 → 上传技能”导入。包内已设置为不自动调用。 |
+| WorkBuddy | 已适配 | 下载 `workbuddy` 分支的 ZIP，在“添加技能 → 上传技能”导入。包内已设置为不自动调用。 |
 | Claude Code | 未验证 | 可参考其官方 Skills 文档自行导入；本仓库暂不承诺“仅手动调用”的行为。 |
 | CodeBuddy Code / 豆包工作 | 未验证 | 暂未提供适配包，请勿把 Codex 版当成已验证安装包。 |
 
@@ -109,14 +111,7 @@ C:\Users\<你的用户名>\.codex\skills\prompt-optimizer
 
 ### WorkBuddy 的打包方式
 
-先下载或克隆本仓库，再在 Windows PowerShell 中运行：
-
-```powershell
-cd prompt-optimizer-skill\packages\workbuddy
-Compress-Archive -Path .\prompt-optimizer -DestinationPath prompt-optimizer-workbuddy.zip
-```
-
-然后在 WorkBuddy 的“添加技能 → 上传技能”中选择这个 ZIP。不要上传整个仓库 ZIP；其中包含 Codex 专用配置。
+下载 [workbuddy 分支 ZIP](https://github.com/ruby99roy/prompt-optimizer-skill/archive/refs/heads/workbuddy.zip)，解压后在 WorkBuddy 的“添加技能 → 上传技能”中选择该 ZIP。这个分支只保留 WorkBuddy 所需的 `SKILL.md` 和许可证；不要上传 `main` 分支 ZIP。
 
 ### 直接复制给 Agent 的安装提示词
 
@@ -152,10 +147,7 @@ WorkBuddy 上传入口或包格式会随版本变化；以其实际页面和官�
 
 ```text
 prompt-optimizer/
-├── SKILL.md                                # Codex Skill 行为规则
-├── agents/openai.yaml                      # Codex 的显示名与调用策略
-├── packages/workbuddy/prompt-optimizer/    # WorkBuddy 专用上传包
-│   └── SKILL.md
-├── README.md                               # 小白使用说明
-└── LICENSE                                 # MIT 许可证
+├── SKILL.md              # Skill 行为规则
+├── README.md             # 小白使用说明
+└── agents/openai.yaml    # Codex 的显示名与调用策略
 ```
