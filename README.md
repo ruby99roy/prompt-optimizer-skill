@@ -101,6 +101,7 @@ $prompt-optimizer
 ```bash
 # Codex
 git clone https://github.com/ruby99roy/prompt-optimizer-skill.git ~/.codex/skills/prompt-optimizer
+
 ```
 
 Windows 下，Codex 的目标目录通常是：
@@ -113,9 +114,11 @@ C:\Users\<你的用户名>\.codex\skills\prompt-optimizer
 
 下载 [workbuddy 分支 ZIP](https://github.com/ruby99roy/prompt-optimizer-skill/archive/refs/heads/workbuddy.zip)，解压后在 WorkBuddy 的“添加技能 → 上传技能”中选择该 ZIP。这个分支只保留 WorkBuddy 所需的 `SKILL.md` 和许可证；不要上传 `main` 分支 ZIP。
 
-### 直接复制给 Agent 的安装提示词
+### 直接复制给 Agent 的安装提示词（按平台选一段）
 
-不想自己找目录时，把下面整段发给 Codex；它只会安装经过本仓库适配的 Codex 版：
+不想自己找目录时，按你正在使用的平台复制一段给 Agent。它会先读取仓库，再选择对应的安装方式，并说明实际结果。
+
+#### Codex：直接安装
 
 ```text
 请把 GitHub 仓库 https://github.com/ruby99roy/prompt-optimizer-skill 里的 prompt-optimizer 安装为我的个人全局 Skill。
@@ -129,7 +132,37 @@ C:\Users\<你的用户名>\.codex\skills\prompt-optimizer
 6. 如果该平台不支持直接导入这个 Skill，要明确说明原因，并告诉我最短的可行替代方式，不要假装已经安装成功。
 ```
 
-WorkBuddy 上传入口或包格式会随版本变化；以其实际页面和官方文档为准。其他平台需要各自的适配包，不能假设同一个 `SKILL.md` 通用。
+#### WorkBuddy：协助导入
+
+```text
+请帮我把 GitHub 仓库 https://github.com/ruby99roy/prompt-optimizer-skill 的“提示词优化” Skill 导入到 WorkBuddy。
+
+请使用 WorkBuddy 专用分支和 ZIP：
+https://github.com/ruby99roy/prompt-optimizer-skill/tree/workbuddy
+https://github.com/ruby99roy/prompt-optimizer-skill/archive/refs/heads/workbuddy.zip
+
+要求：
+1. 不要使用 main 分支；
+2. 如果你可以操作 WorkBuddy 的技能页面，请导入该 ZIP，并确认它保持“只手动调用”；
+3. 如果你不能操作页面，只告诉我最短的点击路径、需要下载的文件和导入后如何调用；
+4. 不安装额外软件、不申请 API Key，也不要改动其他已有 Skill；
+5. 最后明确告诉我：是否导入成功、如何手动调用、是否需要刷新。
+```
+
+#### Claude Code / CodeBuddy Code / 豆包工作：先验证，再安装
+
+```text
+请检查 GitHub 仓库 https://github.com/ruby99roy/prompt-optimizer-skill 的 prompt-optimizer Skill，能否安全安装到我的 [填写平台名称]。
+
+要求：
+1. 先读取仓库中的 README.md 和 SKILL.md，并核对该平台的官方 Skill 格式和个人级安装位置；
+2. 只有确认能保持“只手动调用”时才安装；
+3. 不安装额外软件、不申请 API Key，也不要改动其他已有 Skill；
+4. 若兼容，完成后告诉我实际安装位置、调用方法及是否需要重启或刷新；
+5. 若不兼容，不要说“已安装”；请说明缺少什么适配，并给出最短的下一步。
+```
+
+上面三段都能直接复制给 Agent。区别只在于：Codex 和 WorkBuddy 已有适配版本，可以按对应步骤处理；其他平台使用“先验证，再安装”的提示词，避免假装兼容。
 
 ## 开源许可
 
@@ -151,3 +184,4 @@ prompt-optimizer/
 ├── README.md             # 小白使用说明
 └── agents/openai.yaml    # Codex 的显示名与调用策略
 ```
+
